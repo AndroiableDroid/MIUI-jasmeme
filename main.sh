@@ -3,8 +3,7 @@ SVENDOR=/mnt/vendora2
 SSYSTEM=/mnt/systema2
 PVENDOR=/mnt/vendorport
 PSYSTEM=/mnt/systemport
-CURRENTUSER=$4
-SOURCEROM=$3
+CURRENTUSER=$3
 SCRIPTDIR=$(readlink -f "$0")
 CURRENTDIR=$(dirname "$SCRIPTDIR")
 FILES=$CURRENTDIR/files
@@ -179,7 +178,7 @@ if [[ -z $PATCHDATE ]]
 then
 echo "failed to find security patch date, aborting" && exit
 fi
-su -c "$CURRENTDIR/buildbootimage.sh $PATCHDATE $SOURCEROM $OUTP $CURRENTDIR" $CURRENTUSER
+su -c "$CURRENTDIR/buildbootimage.sh $PATCHDATE $OUTP $CURRENTDIR" $CURRENTUSER
 
 mkdir $PSYSTEM/system/addon.d
 setfattr -h -n security.selinux -v u:object_r:system_file:s0 $PSYSTEM/system/addon.d
@@ -286,3 +285,4 @@ chown -hR $CURRENTUSER:$CURRENTUSER $OUTP
 rm $OUTP/systema2.img
 rm $OUTP/vendora2.img
 rm $OUTP/bootport.img
+rm -r bootimg_tmp
